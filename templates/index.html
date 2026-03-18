@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRM AI Student Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <button class="new-chat-btn" id="new-chat-btn">
+                <i class="fas fa-plus"></i> New Chat
+            </button>
+            <div class="chat-history-list" id="chat-history-list">
+                <!-- History items will be injected here -->
+                <div class="history-item">Previous Chat 1</div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="fas fa-user-circle fa-lg"></i>
+                    <span>{{ username }}</span>
+                </div>
+                <div class="theme-toggle" id="theme-toggle" style="cursor: pointer;">
+                    <i class="fas fa-moon"></i> Dark Mode
+                </div>
+                <a href="{{ url_for('logout') }}" class="logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="main-content">
+            <header>
+                <div class="logo-area">
+                    <span class="srm-logo">SRM</span>
+                    <strong>AI Student Assistant</strong>
+                </div>
+                <!-- Mobile menu placeholder -->
+            </header>
+
+            <div class="chat-container" id="chat-container">
+                <div class="chat-wrapper" id="chat-wrapper">
+                    <!-- Welcome Message -->
+                    <div class="message bot-message">
+                        <div class="avatar bot-avatar">SRM</div>
+                        <div class="message-content">
+                            Hello! 👋 I am the SRM AI Student Assistant. How can I help you today?
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <div class="input-box-wrapper">
+                    <!-- Suggested Questions -->
+                    <div class="suggested-questions">
+                        <button class="suggestion-btn">Show departments</button>
+                        <button class="suggestion-btn">Exam rules</button>
+                        <button class="suggestion-btn">Timetable</button>
+                        <button class="suggestion-btn">Hostel details</button>
+                    </div>
+                    
+                    <div class="typing" id="typing-indicator">AI is searching SRM records...</div>
+                    
+                    <input type="text" id="user-input" class="input-field" placeholder="Ask me anything..." autocomplete="off">
+                    <button id="send-btn" class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

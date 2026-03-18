@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - SRM AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-main { flex: 1; padding: 40px; overflow-y: auto; }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .data-table th, .data-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .data-table th { background: #f8f9fa; font-weight: 600; color: var(--primary-color); }
+        .action-btn { padding: 6px 12px; border-radius: 6px; border: none; cursor: pointer; transition: 0.2s; font-size: 0.85rem; }
+        .edit-btn { background: #e3f2fd; color: #1976d2; }
+        .delete-btn { background: #ffebee; color: #d32f2f; margin-left: 5px; }
+        .btn-primary { background: var(--primary-color); color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .modal-content { background: white; margin: 10% auto; padding: 30px; border-radius: 15px; width: 500px; }
+        .form-control { width: 100%; padding: 10px; margin: 10px 0 20px; border: 1px solid #ddd; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-area" style="margin-bottom: 30px;">
+                <span class="srm-logo">SRM</span>
+                <strong>Admin</strong>
+            </div>
+            <nav class="chat-history-list" style="gap: 10px;">
+                <a href="?cat=departments" class="history-item {% if category == 'departments' %}active{% endif %}"><i class="fas fa-building"></i> Departments</a>
+                <a href="?cat=rules" class="history-item {% if category == 'rules' %}active{% endif %}"><i class="fas fa-gavel"></i> Rules</a>
+                <a href="?cat=timetable" class="history-item {% if category == 'timetable' %}active{% endif %}"><i class="fas fa-calendar-alt"></i> Timetable</a>
+                <a href="?cat=hostel" class="history-item {% if category == 'hostel' %}active{% endif %}"><i class="fas fa-bed"></i> Hostel Info</a>
+                <a href="?cat=facilities" class="history-item {% if category == 'facilities' %}active{% endif %}"><i class="fas fa-swimmer"></i> Facilities</a>
+            </nav>
+            <div class="sidebar-footer">
+                <form action="{{ url_for('run_scraper_route') }}" method="POST">
+                    <button type="submit" class="new-chat-btn" style="width: 100%; justify-content: center;">
+                        <i class="fas fa-sync"></i> Update from Website
+                    </button>
+                </form>
+                <a href="{{ url_for('admin_logout') }}" class="logout-link" style="text-align: center; display: block; padding: 10px;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Manage {{ category | capitalize }}</h2>
+                <button class="btn-primary" onclick="showModal()">+ Add New</button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Value</th>
+                        <th>Last Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td><strong>{{ item.key }}</strong></td>
+                        <td style="max-width: 400px; font-size: 0.9rem;">{{ item.value }}</td>
+                        <td>{{ item.last_updated }}</td>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="editItem('{{ item.id }}', '{{ item.key }}', this.parentElement.querySelector('.item-val').value)">Edit</button>
+                            <input type="hidden" class="item-val" value="{{ item.value }}">
+                            <form action="{{ url_for('delete_content', content_id=item.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="action-btn delete-btn">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Add Content</h3>
+            <form id="dataForm" action="{{ url_for('update_content') }}" method="POST">
+                <input type="hidden" name="id" id="editId">
+                <input type="hidden" name="category" value="{{ category }}">
+                <label>Key (Topic)</label>
+                <input type="text" name="key" id="editKey" class="form-control" required placeholder="e.g. computer science">
+                <label>Value (Response Details)</label>
+                <textarea name="value" id="editValue" class="form-control" rows="5" required placeholder="Enter the detailed information..."></textarea>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="action-btn" onclick="hideModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showModal() {
+            document.getElementById('modalTitle').innerText = 'Add Content';
+            document.getElementById('editId').value = '';
+            document.getElementById('editKey').value = '';
+            document.getElementById('editValue').value = '';
+            document.getElementById('dataModal').style.display = 'block';
+        }
+        function hideModal() { document.getElementById('dataModal').style.display = 'none'; }
+        function editItem(id, key, value) {
+            document.getElementById('modalTitle').innerText = 'Edit Content';
+            document.getElementById('editId').value = id;
+            document.getElementById('editKey').value = key;
+            document.getElementById('editValue').value = value;
+            document.getElementById('dataModal').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
