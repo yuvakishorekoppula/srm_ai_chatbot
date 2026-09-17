@@ -102,11 +102,7 @@ python app.py
 
 The app will be live at **http://localhost:5000**
 
-### Default Admin Credentials
-| Field | Value |
-|---|---|
-| Username | `admin` |
-| Password | `admin123` |
+
 
 ---
 
