@@ -1,25 +1,35 @@
-# 🎓 SRM AI Student Assistant
+# 🤖 SRM AI Chatbot
 
-An AI-powered university chatbot for **SRM Institute of Science and Technology** that helps students find information about departments, rules, timetables, hostel details, and campus facilities.
+An AI-powered university chatbot for **SRM Institute of Science and Technology** that helps students find information about departments, university rules, timetables, hostel details, and campus facilities.
 
-Built with **Flask**, **Google Gemini AI**, and **SQLite** — featuring a hybrid architecture that combines a local knowledge base with generative AI.
+Built with **Python, Flask, SQLite, and Google Gemini AI**, the application uses a **hybrid chatbot architecture**: it searches structured university data first and uses generative AI as a fallback when relevant information is not available locally.
 
----
+## 🚀 Project Highlights
+
+* 🤖 **Hybrid AI architecture** combining a local knowledge base with Google Gemini
+* 🗄️ **Structured university knowledge base** for departments, rules, timetables, hostel information, and facilities
+* 🛠️ **Admin dashboard** with CRUD operations for managing university content
+* 🌐 **Website data extraction** using BeautifulSoup4 and Requests
+* 💬 **Persistent chat history** using SQLite
+* 🔐 **Student and Admin authentication** with Flask sessions and password hashing
+* 🌙 **Dark mode** and responsive user interface
+* 🔗 **Clickable links** in chatbot responses
 
 ## ✨ Features
 
-| Feature | Description |
-|---|---|
-| 🤖 **AI Chatbot** | Hybrid system — checks local database first, falls back to Google Gemini AI |
-| 🔐 **Dual Login** | Tabbed login page with separate **Student** and **Admin** authentication |
-| 🛠️ **Admin Dashboard** | Full CRUD management for Departments, Rules, Timetable, Hostel Info & Facilities |
-| 🌐 **Web Scraper** | One-click "Update from Website" button scrapes live data from srmist.edu.in |
-| 🔗 **Clickable Links** | All URLs render as proper anchor tags opening in new tabs |
-| 🌙 **Dark Mode** | Toggle between light and dark themes |
-| 💬 **Chat History** | Conversations are saved and can be revisited |
-| 📱 **Responsive UI** | Modern, mobile-friendly design with SRM's blue & gold theme |
+| Feature                 | Description                                                                              |
+| ----------------------- | ---------------------------------------------------------------------------------------- |
+| 🤖 **AI Chatbot**       | Searches the local database first and falls back to Google Gemini AI                     |
+| 🔐 **Dual Login**       | Separate Student and Admin authentication                                                |
+| 🛠️ **Admin Dashboard** | CRUD management for Departments, Rules, Timetable, Hostel Info, and Facilities           |
+| 🌐 **Web Scraper**      | Retrieves selected information from the SRM website and updates the local knowledge base |
+| 🔗 **Clickable Links**  | URLs in responses are formatted as clickable links                                       |
+| 🌙 **Dark Mode**        | Toggle between light and dark themes                                                     |
+| 💬 **Chat History**     | Conversations can be stored and revisited                                                |
+| 📱 **Responsive UI**    | Mobile-friendly chatbot interface with SRM-inspired styling                              |
 
 ---
+
 
 ## 🏗️ Tech Stack
 
@@ -188,19 +198,6 @@ flowchart TD
 
 ---
 
-## 📸 Screenshots
-
-### Login Page (Student & Admin Tabs)
-The unified login page features a tabbed interface for both students and administrators.
-
-### Admin Dashboard
-A clean dashboard with sidebar navigation for managing all university content categories.
-
-### Chatbot Interface
-A modern chat UI with formatted responses, clickable links, dark mode support, and suggested questions.
-
----
-
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -211,10 +208,6 @@ A modern chat UI with formatted responses, clickable links, dark mode support, a
 
 ---
 
-## 📄 License
 
-This project is for educational purposes as part of SRM University coursework.
-
----
 
 **Built with ❤️ for SRM IST Students**
